@@ -8,12 +8,13 @@
 
 [package]
 name          = "polywave"
-version       = "0.1.0"
+version       = "0.2.0"
 authors       = ["Gabriel Bjørnager Jensen"]
 edition       = "2021"
 rust-version  = "1.82"
 description   = "Vector-based colour manipulators."
 documentation = "https://docs.rs/polywave/"
+readme        = "README.md"
 homepage      = "https://crates.io/crates/polywave/"
 repository    = "https://gitlab.com/bjoernager/polywave/"
 license       = "MPL-2.0"
@@ -32,8 +33,9 @@ bytemuck = ["dep:bytemuck"]
 f128     = []
 f16      = []
 serde    = ["dep:serde"]
+std      = []
 zerocopy = ["dep:zerocopy"]
-wgpu     = ["dep:wgpu-types"]
+wgpu     = ["dep:wgpu-types", "std"]
 
 [workspace.lints.clippy]
 alloc_instead_of_core              = "forbid"

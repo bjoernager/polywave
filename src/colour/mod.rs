@@ -6,8 +6,12 @@
 // can obtain one at:
 // <https://mozilla.org/MPL/2.0/>.
 
-//! Error types.
+//! The [`Colour`] trait and colour types.
 
-mod css_from_str_error;
+mod colour;
+mod css;
+mod rgba;
 
-pub use css_from_str_error::CssFromStrError;
+pub use colour::Colour;
+pub use css::Css;
+pub use rgba::Rgba;

@@ -17,15 +17,17 @@
 
 extern crate self as polywave;
 
+#[cfg(feature = "std")]
+extern crate std;
+
 #[cfg(test)]
 extern crate alloc;
 
+pub mod colour;
 pub mod error;
 
 mod component;
-mod rgba;
 
 pub use component::Component;
-pub use rgba::Rgba;
 
 use component::SealedComponent;

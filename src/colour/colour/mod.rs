@@ -6,8 +6,10 @@
 // can obtain one at:
 // <https://mozilla.org/MPL/2.0/>.
 
-//! Error types.
-
-mod css_from_str_error;
-
-pub use css_from_str_error::CssFromStrError;
+/// Denotes a colour.
+pub trait Colour {
+	/// Lossily converts the colour to [`wgpu::Color`](wgpu_types::Color).
+	#[cfg(feature = "wgpu")]
+	#[must_use]
+	fn to_wgpu_color_lossy(&self) -> wgpu_types::Color;
+}

@@ -22,26 +22,26 @@ pub(crate) use seal::Component as SealedComponent;
 pub trait Component: SealedComponent + Copy + Sized {
 	/// Lossily converts the component to [`f16`].
 	///
-	/// If `Self` additionally implements <code>[Into]&lt;f16&gt;</code>, then this method must also be lossless.
+	/// The returned value is guaranteed to be in the range `0.0..=1.0`.
 	#[cfg(feature = "f16")]
 	#[must_use]
 	fn to_f16_lossy(self) -> f16;
 
 	/// Lossily converts the component to [`f32`].
 	///
-	/// If `Self` additionally implements <code>[Into]&lt;f32&gt;</code>, then this method must also be lossless.
+	/// The returned value is guaranteed to be in the range `0.0..=1.0`.
 	#[must_use]
 	fn to_f32_lossy(self) -> f32;
 
 	/// Lossily converts the component to [`f64`].
 	///
-	/// If `Self` additionally implements <code>[Into]&lt;f64&gt;</code>, then this method must also be lossless.
+	/// The returned value is guaranteed to be in the range `0.0..=1.0`.
 	#[must_use]
 	fn to_f64_lossy(self) -> f64;
 
 	/// Lossily converts the component to [`f128`].
 	///
-	/// If `Self` additionally implements <code>[Into]&lt;f128&gt;</code>, then this method must also be lossless.
+	/// The returned value is guaranteed to be in the range `0.0..=1.0`.
 	#[cfg(feature = "f128")]
 	#[must_use]
 	fn to_f128_lossy(self) -> f128;

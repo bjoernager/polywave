@@ -3,6 +3,28 @@
 This is the changelog of [Polywave](https://crates.io/crates/polywave/).
 See `README.md` for more information.
 
+## 0.2.0
+
+* Add `Colour` trait
+* Unimplement `From<Rgba<u8>>` for `wgpu::Color`
+* Add `to_wgpu_color_lossy` method to `Colour`
+* Add `Css` colour
+* Implement `Colour` for `Rgba` and `Css`
+* Rename `RgbaU8FromStrError` to `CssFromStrError`
+* Add `from_u32` constructor and `to_u32` destructor to `Css`
+* Add CSS named colours as associated constants to `Css`
+* Implement `From<u32>` and `Into<u32>` for `Css`
+* Implement `From<Rgba<u8>>` and `Into<Rgba<u8>>` for `Css`
+* Update tests
+* Add `from_rgba` constructor and `to_rgba` destructor to `Css`
+* Add `colour` module
+* Remove `from_u32` and `to_u32` from `Rgba`
+* Unimplement `Display` for `Rgba`
+* Implement `FromStr` for `Css`
+* Unimplement `FromStr` for `Rgba`
+* Fix wgpu conversions not transferring colour channels
+* Add `std` feature
+
 ## 0.1.0
 
 * Replace `Srgba8` with generic `Rgba`
