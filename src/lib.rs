@@ -6,8 +6,26 @@
 // can obtain one at:
 // <https://mozilla.org/MPL/2.0/>.
 
+//! Vector-based colour manipulators.
+
+#![warn(missing_docs)]
+
 #![no_std]
 
-mod srgba8;
+#![cfg_attr(feature = "f16",  feature(f16))]
+#![cfg_attr(feature = "f128", feature(f128))]
 
-pub use srgba8::Srgba8;
+extern crate self as polywave;
+
+#[cfg(test)]
+extern crate alloc;
+
+pub mod error;
+
+mod component;
+mod rgba;
+
+pub use component::Component;
+pub use rgba::Rgba;
+
+use component::SealedComponent;

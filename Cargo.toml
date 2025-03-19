@@ -7,28 +7,30 @@
 # <https://mozilla.org/MPL/2.0/>.
 
 [package]
-name          = "sibgha"
-version       = "0.0.0"
+name          = "polywave"
+version       = "0.1.0"
 authors       = ["Gabriel Bjørnager Jensen"]
 edition       = "2021"
 rust-version  = "1.82"
 description   = "Vector-based colour manipulators."
-documentation = "https://docs.rs/sibgha/"
-homepage      = "https://crates.io/crates/sibgha/"
-repository    = "https://gitlab.com/bjoernager/sibgha/"
+documentation = "https://docs.rs/polywave/"
+homepage      = "https://crates.io/crates/polywave/"
+repository    = "https://gitlab.com/bjoernager/polywave/"
 license       = "MPL-2.0"
 
 [package.metadata.docs.rs]
 all-features = true
 
 [dependencies]
-bytemuck   = { version = "1.22", optional = true, features = ["derive"] }
-serde      = { version = "1.0",  optional = true, features = ["derive"] }
-zerocopy   = { version = "0.8",  optional = true, features = ["derive"] }
-wgpu-types = { version = "24.0", optional = true }
+bytemuck   = { version = "1.22", optional = true, default-features = false, features = ["derive"] }
+serde      = { version = "1.0", optional = true, default-features = false, features = ["derive"] }
+zerocopy   = { version = "0.8", optional = true, default-features = false, features = ["derive", "simd"] }
+wgpu-types = { version = "24.0", optional = true, default-features = false }
 
 [features]
 bytemuck = ["dep:bytemuck"]
+f128     = []
+f16      = []
 serde    = ["dep:serde"]
 zerocopy = ["dep:zerocopy"]
 wgpu     = ["dep:wgpu-types"]
