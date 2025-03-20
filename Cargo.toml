@@ -8,7 +8,7 @@
 
 [package]
 name          = "polywave"
-version       = "0.3.0"
+version       = "0.4.0"
 authors       = ["Gabriel Bjørnager Jensen"]
 edition       = "2021"
 rust-version  = "1.82"
@@ -25,7 +25,7 @@ all-features = true
 [dependencies]
 bytemuck = { version = "1.22", optional = true, default-features = false, features = ["derive"] }
 serde    = { version = "1.0", optional = true, default-features = false, features = ["derive"] }
-zerocopy = { version = "0.8", optional = true, features = ["derive", "simd"] }
+zerocopy = { version = "0.8", optional = true, features = ["derive"] }
 
 [features]
 default = ["std"]

@@ -15,33 +15,23 @@ pub(crate) use seal::Component as SealedComponent;
 
 /// Denotes a type suitable for use as a colour component.
 ///
-/// Importantly, all components must be
-///
 /// Note that not all components are necessarily transformable; most colour spaces and formats require some form of floating- or fixed-point arithmetic for transformations to be at least be somewhat accurate.
 /// Only the most basic of colours spaces can thus be translated using simple integers.
 pub trait Component: SealedComponent + Copy + Sized {
 	/// Lossily converts the component to [`f16`].
-	///
-	/// The returned value is guaranteed to be in the range `0.0..=1.0`.
 	#[cfg(feature = "f16")]
 	#[must_use]
 	fn to_f16_lossy(self) -> f16;
 
 	/// Lossily converts the component to [`f32`].
-	///
-	/// The returned value is guaranteed to be in the range `0.0..=1.0`.
 	#[must_use]
 	fn to_f32_lossy(self) -> f32;
 
 	/// Lossily converts the component to [`f64`].
-	///
-	/// The returned value is guaranteed to be in the range `0.0..=1.0`.
 	#[must_use]
 	fn to_f64_lossy(self) -> f64;
 
 	/// Lossily converts the component to [`f128`].
-	///
-	/// The returned value is guaranteed to be in the range `0.0..=1.0`.
 	#[cfg(feature = "f128")]
 	#[must_use]
 	fn to_f128_lossy(self) -> f128;

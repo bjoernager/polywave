@@ -14,6 +14,8 @@ use crate::rgb::Rgb;
 /// This type guarantees that its four channels -- red, green, blue, and alpha -- are stored sequentially in memory (in this order).
 ///
 /// Unlike other colours such as [SRgba](crate::rgb::SRgba), this one does not define a gamut *per se*; instead, users of this type are to interpret it on their own.
+///
+/// This type is equivalent to [`Rgb`] with an added alpha component.
 #[repr(transparent)]
 #[derive(Clone, Copy, Debug, Default, Eq, Ord, PartialEq, PartialOrd)]
 #[cfg_attr(feature = "bytemuck", derive(bytemuck::Pod, bytemuck::Zeroable))]
@@ -22,7 +24,7 @@ use crate::rgb::Rgb;
 pub struct Rgba<T>([T; 0x4]);
 
 impl<T: Component> Rgba<T> {
-	/// Constructs a new RGBA colour.
+	/// Constructs a new, raw RGBA colour.
 	#[inline(always)]
 	#[must_use]
 	pub const fn new(red: T, green: T, blue: T, alpha: T) -> Self {
@@ -30,7 +32,7 @@ impl<T: Component> Rgba<T> {
 		Self(data)
 	}
 
-	/// Discards the RGBA colour's alpha channel.
+	/// Discards the raw RGBA colour's alpha channel.
 	#[inline(always)]
 	#[must_use]
 	pub const fn discard_alpha(self) -> Rgb<T> {
@@ -38,7 +40,7 @@ impl<T: Component> Rgba<T> {
 		Rgb::new(red, green, blue)
 	}
 
-	/// Deconstructs an RGBA colour.
+	/// Deconstructs a raw RGBA colour.
 	#[inline(always)]
 	#[must_use]
 	pub const fn get(self) -> (T, T, T, T) {

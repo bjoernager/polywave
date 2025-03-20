@@ -25,8 +25,10 @@ extern crate alloc;
 
 pub mod error;
 pub mod hsv;
+pub mod lab;
 pub mod rgb;
 pub mod www;
+pub mod xyz;
 
 mod colour;
 mod component;

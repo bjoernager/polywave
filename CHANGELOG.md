@@ -3,6 +3,20 @@
 This is the changelog of [Polywave](https://crates.io/crates/polywave/).
 See `README.md` for more information.
 
+## 0.4.0
+
+* Add `xyz` and `lab` modules
+* Add `CieXyz` and `CieXyza` colours
+* Add `CieLab`, `CieLaba`, `OkLab`, and `OkLaba` colours
+* Add `CieLch`, `CieLcha`, `OkLch`, and `OkLcha` colours
+* Add `OpRgb` and `OpRgba` colours
+* Implement `DefinedGamut` for `CieXyz`, `CieXyza`, `CieLab`, `CieLaba`, `OkLab`, `OkLaba`, `CieLch`, `CieLcha`, `OkLch`, `OkLcha`, `OpRgb`, and `OpRgba`
+* Add `with_alpha` method to `CieXyz`, `CieLab`, `OkLab`, `CieLch`, `OkLch`, and `OpRgb`
+* Add `discard_alpha` method to `CieXyza`, `CieLaba`, `OkLaba`, `CieLcha`, `OkLcha`, and `OpRgba`
+* Add `as_rgb` method to `OpRgb`
+* Add `as_rgba` method to `OpRgba`
+* Update docs
+
 ## 0.3.0
 
 * Make `std` a default feature

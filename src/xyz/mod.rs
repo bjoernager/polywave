@@ -6,18 +6,10 @@
 // can obtain one at:
 // <https://mozilla.org/MPL/2.0/>.
 
-//! RGB-based colour facilities.
+//! XYZ-based colour facilities.
 
-mod op_rgb;
-mod op_rgba;
-mod rgb;
-mod rgba;
-mod s_rgb;
-mod s_rgba;
+mod cie_xyz;
+mod cie_xyza;
 
-pub use op_rgb::OpRgb;
-pub use op_rgba::OpRgba;
-pub use rgb::Rgb;
-pub use rgba::Rgba;
-pub use s_rgb::SRgb;
-pub use s_rgba::SRgba;
+pub use cie_xyz::CieXyz;
+pub use cie_xyza::CieXyza;

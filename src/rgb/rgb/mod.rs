@@ -22,7 +22,7 @@ use crate::rgb::Rgba;
 pub struct Rgb<T>([T; 0x3]);
 
 impl<T: Component> Rgb<T> {
-	/// Constructs a new RGB colour.
+	/// Constructs a new, raw RGB colour.
 	#[inline(always)]
 	#[must_use]
 	pub const fn new(red: T, green: T, blue: T) -> Self {
@@ -30,7 +30,7 @@ impl<T: Component> Rgb<T> {
 		Self(data)
 	}
 
-	/// Adds an alpha channel to the RGB colour.
+	/// Adds an alpha channel to the raw RGB colour.
 	#[inline(always)]
 	#[must_use]
 	pub const fn with_alpha(self, alpha: T) -> Rgba<T> {
@@ -38,7 +38,7 @@ impl<T: Component> Rgb<T> {
 		Rgba::new(red, green, blue, alpha)
 	}
 
-	/// Deconstructs an RGB colour.
+	/// Deconstructs a raw RGB colour.
 	#[inline(always)]
 	#[must_use]
 	pub const fn get(self) -> (T, T, T) {
