@@ -6,25 +6,23 @@
 // can obtain one at:
 // <https://mozilla.org/MPL/2.0/>.
 
-use crate::colour::Css;
-use crate::error::CssFromStrError;
+use crate::error::HtmlFromStrError;
+use crate::www::Html;
 
 use core::ops::RangeInclusive;
 use core::str::FromStr;
 
-impl FromStr for Css {
-	type Err = CssFromStrError;
+impl FromStr for Html {
+	type Err = HtmlFromStrError;
 
-	/// Parses a CSS colour from a string.
+	/// Parses an HTML colour from a string.
 	///
 	/// Currently, the formats supported by this implementation include:
 	///
 	/// * Three-, four-, six-, and eight-digit case-insensitive hexadecimal codes, e.g. `#639`, `#639f`, `#663399`, and `#663399Ff`
-	/// * Named colours (as per the [CSS Color Module Level 4][css-color-module] specification), e.g. `aliceblue`
+	/// * Named colours (as per the [**CSS** Color Module Level 4][html-color-module] specification), e.g. `aliceblue`
 	///
-	/// [css-color-module]: https://www.w3.org/TR/css-color-4/#introduction
-	///
-	/// Ideally, all formats specified by the CSS Color Module will be supported in the future.
+	/// [html-color-module]: https://www.w3.org/TR/html-color-4/#introduction
 	fn from_str(s: &str) -> Result<Self, Self::Err> {
 		match s {
 			"aliceblue"            => Ok(Self::ALICE_BLUE),
@@ -179,7 +177,7 @@ impl FromStr for Css {
 
 			_ => {
 				if !s.starts_with('#') {
-					return Err(CssFromStrError::MissingHash);
+					return Err(HtmlFromStrError::MissingHash);
 				}
 
 				let get_int_in_range = |range: RangeInclusive<usize>| -> Result<u8, Self::Err> {
@@ -188,7 +186,7 @@ impl FromStr for Css {
 					if let Some(Ok(value)) = value {
 						Ok(value)
 					} else {
-						Err(CssFromStrError::UnknownFormat)
+						Err(HtmlFromStrError::UnknownFormat)
 					}
 				};
 
@@ -231,7 +229,7 @@ impl FromStr for Css {
 						Ok(this)
 					}
 
-					_ => Err(CssFromStrError::UnknownFormat),
+					_ => Err(HtmlFromStrError::UnknownFormat),
 				}
 			},
 		}

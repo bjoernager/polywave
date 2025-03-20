@@ -6,5 +6,8 @@
 // can obtain one at:
 // <https://mozilla.org/MPL/2.0/>.
 
-/// Denotes a colour.
-pub trait Colour { }
+//! WWW-related colour facilities.
+
+mod html;
+
+pub use html::Html;

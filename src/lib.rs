@@ -23,11 +23,17 @@ extern crate std;
 #[cfg(test)]
 extern crate alloc;
 
-pub mod colour;
 pub mod error;
+pub mod hsv;
+pub mod rgb;
+pub mod www;
 
+mod colour;
 mod component;
+mod defined_gamut;
 
+pub use colour::Colour;
 pub use component::Component;
+pub use defined_gamut::DefinedGamut;
 
 use component::SealedComponent;

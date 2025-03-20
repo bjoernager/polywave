@@ -8,6 +8,6 @@
 
 //! Error types.
 
-mod css_from_str_error;
+mod html_from_str_error;
 
-pub use css_from_str_error::CssFromStrError;
+pub use html_from_str_error::HtmlFromStrError;

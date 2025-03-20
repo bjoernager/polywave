@@ -6,10 +6,14 @@
 // can obtain one at:
 // <https://mozilla.org/MPL/2.0/>.
 
-/// Denotes a colour.
-pub trait Colour {
-	/// Lossily converts the colour to [`wgpu::Color`](wgpu_types::Color).
-	#[cfg(feature = "wgpu")]
-	#[must_use]
-	fn to_wgpu_color_lossy(&self) -> wgpu_types::Color;
-}
+//! RGB-based colour facilities.
+
+mod rgb;
+mod rgba;
+mod s_rgb;
+mod s_rgba;
+
+pub use rgb::Rgb;
+pub use rgba::Rgba;
+pub use s_rgb::SRgb;
+pub use s_rgba::SRgba;

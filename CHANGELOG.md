@@ -3,6 +3,31 @@
 This is the changelog of [Polywave](https://crates.io/crates/polywave/).
 See `README.md` for more information.
 
+## 0.3.0
+
+* Make `std` a default feature
+* Add `Rgb` colour
+* Add `Hsva` and `Hsv` colours
+* Add `SRgba` and `SRgb` colours
+* Add `with_alpha` method to `Rgb`, `Hsv`, and `SRgb`
+* Add `discard_alpha` method to `Rgba`, `Hsva`, and `SRgba`
+* Rename `Css` to `Html`
+* Remove `From<T>` implementations for colours where `T` is a tuple
+* Add `rgb`, `www`, and `hsv` modules
+* Remove `colour` module
+* Unimplement `From<Rgba<u8>>` and `Into<Rgba<u8>>` for `Html`
+* Implement `From<SRgba<u8>>`, `From<SRgb<u8>>`, `Into<SRgba<u8>>`, and `Into<u32>` for `Html`
+* Replace `Html::from_rgba` with `from_s_rgba`
+* Replace `Html::to_rgba` with `to_s_rgba`
+* Add `as_rgba` method to `SRgba`
+* Add `as_rgb` method to `SRgb`
+* Add `DefinedGamut` trait
+* Remove `Colour::to_wgpu_color_lossy`
+* Remove `wgpu` trait
+* Add `to_s_rgb` method to `DefinedGamut`
+* Implement `DefinedGamut` for `SRgba`, `SRgb`, and `Html`
+* Rename `CssFromStrError` to `HtmlFromStrError`
+
 ## 0.2.0
 
 * Add `Colour` trait

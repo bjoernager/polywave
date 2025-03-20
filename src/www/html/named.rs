@@ -8,17 +8,17 @@
 
 macro_rules! def_named_colour {
 	{
-		$($rust_name:ident: $css_name:ident = $value:expr;)*
+		$($rust_name:ident: $html_name:ident = $value:expr;)*
 	} => {
-		impl ::polywave::colour::Css {
+		impl ::polywave::www::Html {
 			$(
 				#[doc = ::core::concat!(
 					"The `",
-					::core::stringify!($css_name),
+					::core::stringify!($html_name),
 					"` <span style=\"aspect-ratio: 1 / 1; background-color: ",
-					::core::stringify!($css_name),
+					::core::stringify!($html_name),
 					"; border-radius: calc(1em / 3); display: inline-block; height: 1em; text-align: center; vertical-align: middle;\"",
-					"></span> CSS named colour.",
+					"></span> HTML named colour.",
 				)]
 				pub const $rust_name: Self = $value;
 			)*

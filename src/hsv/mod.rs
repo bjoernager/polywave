@@ -6,5 +6,10 @@
 // can obtain one at:
 // <https://mozilla.org/MPL/2.0/>.
 
-/// Denotes a colour.
-pub trait Colour { }
+//! HSV- and HSL-based colour facilities.
+
+mod hsv;
+mod hsva;
+
+pub use hsv::Hsv;
+pub use hsva::Hsva;
