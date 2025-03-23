@@ -25,25 +25,27 @@ impl<T: Component> CieLaba<T> {
 	/// Constructs a new CIELABA colour.
 	#[inline(always)]
 	#[must_use]
-	pub const fn new(x: T, y: T, z: T, alpha: T) -> Self {
-		let data = [x, y, z, alpha];
+	pub const fn new(lightness: T, a_star: T, b_star: T, alpha: T) -> Self {
+		let data = [lightness, a_star, b_star, alpha];
 		Self(data)
 	}
 
 	/// Discards the CIELABA colour's alpha channel.
 	#[inline(always)]
 	#[must_use]
-	pub const fn discard_alpha(self) -> CieLab<T> {
-		let (x, y, z, _) = self.get();
-		CieLab::new(x, y, z)
+	pub const fn discard_alpha(self) -> (CieLab<T>, T) {
+		let (lightness, a_star, b_star, alpha) = self.get();
+
+		let colour = CieLab::new(lightness, a_star, b_star);
+		(colour, alpha)
 	}
 
 	/// Deconstructs a CIELABA colour.
 	#[inline(always)]
 	#[must_use]
 	pub const fn get(self) -> (T, T, T, T) {
-		let [x, y, z, alpha] = self.0;
-		(x, y, z, alpha)
+		let [lightness, a_star, b_star, alpha] = self.0;
+		(lightness, a_star, b_star, alpha)
 	}
 }
 

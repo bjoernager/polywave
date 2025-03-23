@@ -34,9 +34,11 @@ impl<T: Component> OpRgba<T> {
 	/// Discards the opRGBA colour's alpha channel.
 	#[inline(always)]
 	#[must_use]
-	pub const fn discard_alpha(self) -> OpRgb<T> {
-		let (red, green, blue, _) = self.get();
-		OpRgb::new(red, green, blue)
+	pub const fn discard_alpha(self) -> (OpRgb<T>, T) {
+		let (red, green, blue, alpha) = self.get();
+
+		let colour = OpRgb::new(red, green, blue);
+		(colour, alpha)
 	}
 
 	/// Reinterprets the opRGBA colour as a raw RGB colour.

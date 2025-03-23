@@ -35,9 +35,11 @@ impl<T: Component> Rgba<T> {
 	/// Discards the raw RGBA colour's alpha channel.
 	#[inline(always)]
 	#[must_use]
-	pub const fn discard_alpha(self) -> Rgb<T> {
-		let (red, green, blue, _) = self.get();
-		Rgb::new(red, green, blue)
+	pub const fn discard_alpha(self) -> (Rgb<T>, T) {
+		let (red, green, blue, alpha) = self.get();
+
+		let colour = Rgb::new(red, green, blue);
+		(colour, alpha)
 	}
 
 	/// Deconstructs a raw RGBA colour.

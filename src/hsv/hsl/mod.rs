@@ -6,45 +6,43 @@
 // can obtain one at:
 // <https://mozilla.org/MPL/2.0/>.
 
-use crate::{Colour, Component, DefinedGamut};
-use crate::lab::OkLcha;
+use crate::{Colour, Component};
+use crate::hsv::Hsla;
 
-/// An Oklch colour.
+/// An HSL colour.
 ///
-/// This type guarantees that its three channels -- luminance, chroma, and hue -- are stored sequentially in memory (in this order).
+/// This type guarantees that its three channels -- hue, saturation, and luminosity (or *lightness*) -- are stored sequentially in memory (in this order).
 #[repr(transparent)]
 #[derive(Clone, Copy, Debug, Default, Eq, Ord, PartialEq, PartialOrd)]
 #[cfg_attr(feature = "bytemuck", derive(bytemuck::Pod, bytemuck::Zeroable))]
 #[cfg_attr(feature = "serde",    derive(serde::Deserialize, serde::Serialize))]
 #[cfg_attr(feature = "zerocopy", derive(zerocopy::FromZeros, zerocopy::Immutable, zerocopy::IntoBytes))]
-pub struct OkLch<T>([T; 0x3]);
+pub struct Hsl<T>([T; 0x3]);
 
-impl<T: Component> OkLch<T> {
-	/// Constructs a new Oklch colour.
+impl<T: Component> Hsl<T> {
+	/// Constructs a new HSL colour.
 	#[inline(always)]
 	#[must_use]
-	pub const fn new(x: T, y: T, z: T) -> Self {
-		let data = [x, y, z];
+	pub const fn new(hue: T, saturation: T, luminosity: T) -> Self {
+		let data = [hue, saturation, luminosity];
 		Self(data)
 	}
 
-	/// Adds an alpha channel to the Oklch colour.
+	/// Adds an alpha channel to the HSL colour.
 	#[inline(always)]
 	#[must_use]
-	pub const fn with_alpha(self, alpha: T) -> OkLcha<T> {
-		let (x, y, z) = self.get();
-		OkLcha::new(x, y, z, alpha)
+	pub const fn with_alpha(self, alpha: T) -> Hsla<T> {
+		let (hue, saturation, luminosity) = self.get();
+		Hsla::new(hue, saturation, luminosity, alpha)
 	}
 
-	/// Deconstructs an Oklch colour.
+	/// Deconstructs an HSL colour.
 	#[inline(always)]
 	#[must_use]
 	pub const fn get(self) -> (T, T, T) {
-		let [x, y, z] = self.0;
-		(x, y, z)
+		let [hue, saturation, luminosity] = self.0;
+		(hue, saturation, luminosity)
 	}
 }
 
-impl<T: Component> Colour for OkLch<T> { }
-
-impl<T: Component> DefinedGamut for OkLch<T> { }
+impl<T: Component> Colour for Hsl<T> { }

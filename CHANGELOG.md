@@ -3,6 +3,18 @@
 This is the changelog of [Polywave](https://crates.io/crates/polywave/).
 See `README.md` for more information.
 
+## 0.5.0
+
+* Update signatures for `discard_alpha` methods
+* Add `Hsl` and `Hsla` colours
+* Add `lch` module
+* Move `CieLch`, `CieLcha`, `OkLch`, and `OkLcha` to `lch`
+* Add `Hwb` and `Hwba` colours
+* Add `to_hwb` destructor and `from_hwb` constructor to `Hsv<{f16, f32, f64, f128}>`
+* Add `to_hwba` destructor and `from_hwba` constructor to `Hsva<{f16, f32, f64, f128}>`
+* Remove `to_f16_lossy`, `to_f32_lossy`, `to_f64_lossy`, and `to_f128_lossy` from `Component`
+* Update docs
+
 ## 0.4.0
 
 * Add `xyz` and `lab` modules

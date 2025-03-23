@@ -33,9 +33,11 @@ impl<T: Component> CieXyza<T> {
 	/// Discards the CIEXYZA colour's alpha channel.
 	#[inline(always)]
 	#[must_use]
-	pub const fn discard_alpha(self) -> CieXyz<T> {
-		let (x, y, z, _) = self.get();
-		CieXyz::new(x, y, z)
+	pub const fn discard_alpha(self) -> (CieXyz<T>, T) {
+		let (x, y, z, alpha) = self.get();
+
+		let colour = CieXyz::new(x, y, z);
+		(colour, alpha)
 	}
 
 	/// Deconstructs a CIEXYZA colour.

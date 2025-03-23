@@ -7,7 +7,7 @@
 // <https://mozilla.org/MPL/2.0/>.
 
 use crate::{Colour, Component, DefinedGamut};
-use crate::lab::CieLcha;
+use crate::lch::CieLcha;
 
 /// A CIELCh colour.
 ///

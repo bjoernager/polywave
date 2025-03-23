@@ -7,11 +7,11 @@
 // <https://mozilla.org/MPL/2.0/>.
 
 use crate::{Colour, Component};
-use crate::hsv::Hsva;
+use crate::hsv::{Hsva, Hwb};
 
 /// An HSV colour.
 ///
-/// This type guarantees that its three channels -- hue, saturation, and value -- are stored sequentially in memory (in this order).
+/// This type guarantees that its four channels -- hue, saturation, and value -- are stored sequentially in memory (in this order).
 #[repr(transparent)]
 #[derive(Clone, Copy, Debug, Default, Eq, Ord, PartialEq, PartialOrd)]
 #[cfg_attr(feature = "bytemuck", derive(bytemuck::Pod, bytemuck::Zeroable))]
@@ -44,5 +44,42 @@ impl<T: Component> Hsv<T> {
 		(hue, saturation, value)
 	}
 }
+
+macro_rules! impl_conversions {
+	($($tys:ty),+$(,)?) => {
+		$(
+			impl ::polywave::hsv::Hsv<$tys> {
+				/// Converts an HWB colour to HSV.
+				pub const fn from_hwb(colour: ::polywave::hsv::Hwb<$tys>) -> Self {
+					let (hue, whiteness, blackness) = colour.get();
+
+					let saturation = 1.0 - (whiteness / (1.0 - blackness));
+					let value      = 1.0 - blackness;
+
+					Self::new(hue, saturation, value)
+				}
+
+				/// Converts the HSV colour to HWB.
+				pub fn to_hwb(self) -> ::polywave::hsv::Hwb<$tys> {
+					let (hue, saturation, value) = self.get();
+
+					let whiteness = (1.0 - saturation) * value;
+
+					let blackness = 1.0 - value;
+
+					Hwb::new(hue, whiteness, blackness)
+				}
+			}
+		)*
+	};
+}
+
+impl_conversions!(f32, f64);
+
+#[cfg(feature = "f16")]
+impl_conversions!(f16);
+
+#[cfg(feature = "f128")]
+impl_conversions!(f128);
 
 impl<T: Component> Colour for Hsv<T> { }
