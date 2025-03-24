@@ -9,11 +9,7 @@
 //! LAB-based colour facilities.
 
 mod cie_lab;
-mod cie_laba;
 mod ok_lab;
-mod ok_laba;
 
 pub use cie_lab::CieLab;
-pub use cie_laba::CieLaba;
 pub use ok_lab::OkLab;
-pub use ok_laba::OkLaba;

@@ -31,12 +31,14 @@ pub mod rgb;
 pub mod www;
 pub mod xyz;
 
+mod alpha;
+mod balanced_colour;
 mod colour;
 mod component;
 mod defined_gamut;
 
+pub use alpha::Alpha;
+pub use balanced_colour::BalancedColour;
 pub use colour::Colour;
 pub use component::Component;
 pub use defined_gamut::DefinedGamut;
-
-use component::SealedComponent;

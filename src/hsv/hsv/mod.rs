@@ -6,17 +6,26 @@
 // can obtain one at:
 // <https://mozilla.org/MPL/2.0/>.
 
-use crate::{Colour, Component};
-use crate::hsv::{Hsva, Hwb};
+use crate::{BalancedColour, Colour, Component};
+use crate::hsv::Hwb;
+
+#[cfg(feature = "bytemuck")]
+use bytemuck::{Pod, Zeroable};
+
+#[cfg(feature = "serde")]
+use serde::{Deserialize, Serialize};
+
+#[cfg(feature = "zerocopy")]
+use zerocopy::{FromZeros, Immutable, IntoBytes};
 
 /// An HSV colour.
 ///
 /// This type guarantees that its four channels -- hue, saturation, and value -- are stored sequentially in memory (in this order).
 #[repr(transparent)]
 #[derive(Clone, Copy, Debug, Default, Eq, Ord, PartialEq, PartialOrd)]
-#[cfg_attr(feature = "bytemuck", derive(bytemuck::Pod, bytemuck::Zeroable))]
-#[cfg_attr(feature = "serde",    derive(serde::Deserialize, serde::Serialize))]
-#[cfg_attr(feature = "zerocopy", derive(zerocopy::FromZeros, zerocopy::Immutable, zerocopy::IntoBytes))]
+#[cfg_attr(feature = "bytemuck", derive(Pod, Zeroable))]
+#[cfg_attr(feature = "serde",    derive(Deserialize, Serialize))]
+#[cfg_attr(feature = "zerocopy", derive(FromZeros, Immutable, IntoBytes))]
 pub struct Hsv<T>([T; 0x3]);
 
 impl<T: Component> Hsv<T> {
@@ -26,14 +35,6 @@ impl<T: Component> Hsv<T> {
 	pub const fn new(hue: T, saturation: T, value: T) -> Self {
 		let data = [hue, saturation, value];
 		Self(data)
-	}
-
-	/// Adds an alpha channel to the HSV colour.
-	#[inline(always)]
-	#[must_use]
-	pub const fn with_alpha(self, alpha: T) -> Hsva<T> {
-		let (hue, saturation, value) = self.get();
-		Hsva::new(hue, saturation, value, alpha)
 	}
 
 	/// Deconstructs an HSV colour.
@@ -81,5 +82,9 @@ impl_conversions!(f16);
 
 #[cfg(feature = "f128")]
 impl_conversions!(f128);
+
+unsafe impl<T: Component> BalancedColour for Hsv<T> {
+	type Component = T;
+}
 
 impl<T: Component> Colour for Hsv<T> { }

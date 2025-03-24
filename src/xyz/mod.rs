@@ -9,7 +9,5 @@
 //! XYZ-based colour facilities.
 
 mod cie_xyz;
-mod cie_xyza;
 
 pub use cie_xyz::CieXyz;
-pub use cie_xyza::CieXyza;

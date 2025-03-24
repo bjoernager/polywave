@@ -6,18 +6,20 @@
 // can obtain one at:
 // <https://mozilla.org/MPL/2.0/>.
 
-mod seal {
-	/// Denotes a type suitable for use as a colour component.
-	pub trait Component: Copy + Sized { }
-}
-
-pub(crate) use seal::Component as SealedComponent;
-
 /// Denotes a type suitable for use as a colour component.
 ///
-/// Note that not all components are necessarily transformable; most colour spaces and formats require some form of floating- or fixed-point arithmetic for transformations to be at least be somewhat accurate.
+/// Note that not all components types are necessarily transformable; most colour spaces and formats require some form of floating- or fixed-point arithmetic for transformations to be at least be somewhat accurate.
 /// Only the most basic of colours spaces can thus be translated using simple integers.
-pub trait Component: SealedComponent + Copy + Sized { }
+///
+/// Also note that some colour types may be preprogrammed for specific components and are thus not generic or only generic for a specific subset of components types.
+/// Usually, this trait is only useful for types that implement [`BalancedColour`](crate::BalancedColour).
+///
+/// # Safety
+///
+/// Implementors of this type may not contain any padding.
+///
+/// Additionally, the component must also have a bit state for denoting `0` (zero), and this state must only contain null bits.
+pub unsafe trait Component: Copy + Sized { }
 
 macro_rules! impl_component {
 	{
@@ -28,10 +30,7 @@ macro_rules! impl_component {
 	} => {
 		$(
 			$(#[$attrs])*
-			impl ::polywave::SealedComponent for $tys { }
-
-			$(#[$attrs])*
-			impl ::polywave::Component for $tys { }
+			unsafe impl ::polywave::Component for $tys { }
 		)*
 	};
 }

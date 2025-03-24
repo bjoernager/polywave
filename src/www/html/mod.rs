@@ -10,29 +10,40 @@ mod from_str;
 mod named;
 mod test;
 
-use crate::{Colour, DefinedGamut};
-use crate::rgb::{SRgba, SRgb};
+use crate::{Alpha, BalancedColour, Colour, DefinedGamut};
+use crate::rgb::SRgb;
 
 use core::fmt::{self, Debug, Display, Formatter};
 
+#[cfg(feature = "bytemuck")]
+use bytemuck::{Pod, Zeroable};
+
+#[cfg(feature = "serde")]
+use serde::{Deserialize, Serialize};
+
+#[cfg(feature = "zerocopy")]
+use zerocopy::{FromZeros, Immutable, IntoBytes};
+
 /// An HTML colour.
 ///
-/// This type is guaranteed to have the exact same layout and representation as <code>[SRgba]&lt;[u8]&gt;</code>, and -- for all intends and purposes -- these types are also equivalent.
+/// This type is guaranteed to have the exact same layout and representation as <code>[Alpha]&lt;[SRgb]&lt;[u8]&gt;&gt;</code>, and -- for all intends and purposes -- these types are also equivalent.
 ///
 /// Where this type differs is in that it may be more suited in user interactions due to its [`FromStr`](core::str::FromStr) and [`Display`] implementations.
 #[repr(transparent)]
 #[derive(Clone, Copy, Debug, Default, Eq, Ord, PartialEq, PartialOrd)]
-#[cfg_attr(feature = "bytemuck", derive(bytemuck::Pod, bytemuck::Zeroable))]
-#[cfg_attr(feature = "serde",    derive(serde::Deserialize, serde::Serialize))]
-#[cfg_attr(feature = "zerocopy", derive(zerocopy::FromZeros, zerocopy::Immutable, zerocopy::IntoBytes))]
-pub struct Html(SRgba<u8>);
+#[cfg_attr(feature = "bytemuck", derive(Pod, Zeroable))]
+#[cfg_attr(feature = "serde",    derive(Deserialize, Serialize))]
+#[cfg_attr(feature = "zerocopy", derive(FromZeros, Immutable, IntoBytes))]
+pub struct Html(Alpha<SRgb<u8>>);
 
 impl Html {
 	/// Constructs a new HTML colour.
 	#[inline(always)]
 	#[must_use]
 	pub const fn new(red: u8, green: u8, blue: u8, alpha: u8) -> Self {
-		let colour = SRgba::new(red, green, blue, alpha);
+		let colour = SRgb::new(red, green, blue);
+		let colour = Alpha::attach(colour, alpha);
+
 		Self::from_s_rgba(colour)
 	}
 
@@ -51,7 +62,7 @@ impl Html {
 	/// This conversion is always lossless and zero-cost.
 	#[inline(always)]
 	#[must_use]
-	pub const fn from_s_rgba(colour: SRgba<u8>) -> Self {
+	pub const fn from_s_rgba(colour: Alpha<SRgb<u8>>) -> Self {
 		Self(colour)
 	}
 
@@ -59,7 +70,11 @@ impl Html {
 	#[inline(always)]
 	#[must_use]
 	pub const fn get(self) -> (u8, u8, u8, u8) {
-		self.to_s_rgba().get()
+		let (colour, alpha) = self.to_s_rgba().detach();
+
+		let (red, green, blue) = colour.get();
+
+		(red, green, blue, alpha)
 	}
 
 	/// Converts an HTML colour to [`u32`].
@@ -74,14 +89,18 @@ impl Html {
 		u32::from_be_bytes(data)
 	}
 
-	/// Converts an HTML colour to [`SRgba<u8>`].
+	/// Converts an HTML colour to [`Alpha<SRgb<u8>>`].
 	///
 	/// This conversion is always lossless and zero-cost.
 	#[inline(always)]
 	#[must_use]
-	pub const fn to_s_rgba(self) -> SRgba<u8> {
+	pub const fn to_s_rgba(self) -> Alpha<SRgb<u8>> {
 		self.0
 	}
+}
+
+unsafe impl BalancedColour for Html {
+	type Component = u8;
 }
 
 impl Colour for Html { }
@@ -104,9 +123,9 @@ impl From<u32> for Html {
 	}
 }
 
-impl From<SRgba<u8>> for Html {
+impl From<Alpha<SRgb<u8>>> for Html {
 	#[inline(always)]
-	fn from(value: SRgba<u8>) -> Self {
+	fn from(value: Alpha<SRgb<u8>>) -> Self {
 		Self(value)
 	}
 }
@@ -114,12 +133,12 @@ impl From<SRgba<u8>> for Html {
 impl From<SRgb<u8>> for Html {
 	#[inline(always)]
 	fn from(value: SRgb<u8>) -> Self {
-		let colour = value.with_alpha(0xFF);
+		let colour = Alpha::attach(value, 0xFF);
 		Self(colour)
 	}
 }
 
-impl From<Html> for SRgba<u8> {
+impl From<Html> for Alpha<SRgb<u8>> {
 	#[inline(always)]
 	fn from(value: Html) -> Self {
 		value.to_s_rgba()

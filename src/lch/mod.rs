@@ -9,11 +9,7 @@
 //! LCh-based colour facilities.
 
 mod cie_lch;
-mod cie_lcha;
 mod ok_lch;
-mod ok_lcha;
 
 pub use cie_lch::CieLch;
-pub use cie_lcha::CieLcha;
 pub use ok_lch::OkLch;
-pub use ok_lcha::OkLcha;

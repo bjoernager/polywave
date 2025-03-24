@@ -3,6 +3,17 @@
 This is the changelog of [Polywave](https://crates.io/crates/polywave/).
 See `README.md` for more information.
 
+## 0.6.0
+
+* Remove `discard_alpha` methods
+* Replace all alpha colours with generic `Alpha` type
+* Add `attach` constructor and `detach` destructor to `Alpha`
+* Update docs
+* Add `BalancedColour` trait
+* Add `Component` associated type to `BalancedColour`
+* Improve error handling for `<Html as FromStr>::from_str`
+* Unseal `Component`
+
 ## 0.5.0
 
 * Update signatures for `discard_alpha` methods

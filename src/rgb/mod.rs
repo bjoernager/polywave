@@ -9,15 +9,9 @@
 //! RGB-based colour facilities.
 
 mod op_rgb;
-mod op_rgba;
 mod rgb;
-mod rgba;
 mod s_rgb;
-mod s_rgba;
 
 pub use op_rgb::OpRgb;
-pub use op_rgba::OpRgba;
 pub use rgb::Rgb;
-pub use rgba::Rgba;
 pub use s_rgb::SRgb;
-pub use s_rgba::SRgba;

@@ -176,6 +176,10 @@ impl FromStr for Html {
 			"yellowgreen"          => Ok(Self::YELLOW_GREEN),
 
 			_ => {
+				if s.starts_with(char::is_alphanumeric) {
+					return Err(HtmlFromStrError::UnknownName);
+				}
+
 				if !s.starts_with('#') {
 					return Err(HtmlFromStrError::MissingHash);
 				}
