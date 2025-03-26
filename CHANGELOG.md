@@ -3,6 +3,14 @@
 This is the changelog of [Polywave](https://crates.io/crates/polywave/).
 See `README.md` for more information.
 
+## 0.8.0
+
+* Add `transfer` constructor to `SRgb`
+* Add `as_colour` and `as_mut_colour` methods to `Alpha`
+* Add `from_rgb` constructor to `SRgb` and `OpRgb`
+* Fix `SRgb::untransfer` not considering negative values
+* Update docs
+
 ## 0.7.0
 
 * Add `map` method to our colours (except `Html`)

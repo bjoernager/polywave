@@ -42,8 +42,22 @@ impl<T: BalancedColour> Alpha<T> {
 		Self { colour, alpha }
 	}
 
+	/// Retrieves a reference to the colour part.
+	#[inline]
+	#[must_use]
+	pub const fn as_colour(&self) -> &T {
+		&self.colour
+	}
+
+	/// Retrieves a mutable reference to the colour part.
+	#[inline]
+	#[must_use]
+	pub const fn as_mut_colour(&mut self) -> &mut T {
+		&mut self.colour
+	}
+
 	/// Detaches the colour from its alpha channel.
-	#[inline(always)]
+	#[inline]
 	#[must_use]
 	pub const fn detach(self) -> (T, T::Component) {
 		let alpha = self.alpha;

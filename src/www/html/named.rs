@@ -18,7 +18,7 @@ macro_rules! def_named_colour {
 					"` <span style=\"aspect-ratio: 1 / 1; background-color: ",
 					::core::stringify!($html_name),
 					"; border-radius: calc(1em / 3); display: inline-block; height: 1em; text-align: center; vertical-align: middle;\"",
-					"></span> HTML named colour.",
+					"></span> HTML named colour.\n",
 				)]
 				pub const $rust_name: Self = $value;
 			)*

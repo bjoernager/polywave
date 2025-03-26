@@ -38,6 +38,15 @@ impl<T: Component> OpRgb<T> {
 		Self(colour)
 	}
 
+	/// Reinterprets a rwa RGB colour as opRGB.
+	///
+	/// The provided colour is *scaled* to fit the opRGB gamut.
+	#[inline(always)]
+	#[must_use]
+	pub const fn from_rgb(colour: Rgb<T>) -> Self {
+		Self(colour)
+	}
+
 	/// Maps the opRGB colour's channels.
 	#[inline]
 	#[must_use]
