@@ -31,17 +31,34 @@ impl<T: Component> CieLch<T> {
 	/// Constructs a new CIELCh colour.
 	#[inline(always)]
 	#[must_use]
-	pub const fn new(x: T, y: T, z: T) -> Self {
-		let data = [x, y, z];
+	pub const fn new(luminance: T, chroma: T, hue: T) -> Self {
+		let data = [luminance, chroma, hue];
 		Self(data)
 	}
 
-	/// Deconstructs a CIELCh colour.
+	/// Maps the CIELCh colour's channels.
+	#[inline]
+	#[must_use]
+	pub fn map<U, F>(self, mut op: F) -> CieLch<U>
+	where
+		U: Component,
+		F: FnMut(T) -> U,
+	{
+		let (luminance, chroma, hue) = self.get();
+
+		let luminance = op(luminance);
+		let chroma    = op(chroma);
+		let hue       = op(hue);
+
+		CieLch::new(luminance, chroma, hue)
+	}
+
+	/// Deconstructs the CIELCh colour.
 	#[inline(always)]
 	#[must_use]
 	pub const fn get(self) -> (T, T, T) {
-		let [x, y, z] = self.0;
-		(x, y, z)
+		let [luminance, chroma, hue] = self.0;
+		(luminance, chroma, hue)
 	}
 }
 

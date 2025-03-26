@@ -47,6 +47,21 @@ impl Html {
 		Self::from_s_rgba(colour)
 	}
 
+	/// Maps the HTML colour's colour channels.
+	///
+	/// Note that this method specifically does not map the alpha channel.
+	#[inline(always)]
+	#[must_use]
+	pub fn map_colour<F: FnMut(u8) -> u8>(self, mut op: F) -> Self {
+		let (red, green, blue, alpha) = self.get();
+
+		let red   = op(red);
+		let green = op(green);
+		let blue  = op(blue);
+
+		Self::new(red, green, blue, alpha)
+	}
+
 	/// Constructs a new HTML colour from [`u32`].
 	///
 	/// The `u32` value is reinterpreted as a four contiguous `u8` objects corresponding to each of the four channels.
@@ -66,7 +81,7 @@ impl Html {
 		Self(colour)
 	}
 
-	/// Deconstructs an HTML colour.
+	/// Deconstructs the HTML colour.
 	#[inline(always)]
 	#[must_use]
 	pub const fn get(self) -> (u8, u8, u8, u8) {

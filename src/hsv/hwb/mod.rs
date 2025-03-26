@@ -36,7 +36,24 @@ impl<T: Component> Hwb<T> {
 		Self(data)
 	}
 
-	/// Deconstructs an HWB colour.
+	/// Maps the HWB colour's channels.
+	#[inline]
+	#[must_use]
+	pub fn map<U, F>(self, mut op: F) -> Hwb<U>
+	where
+		U: Component,
+		F: FnMut(T) -> U,
+	{
+		let (hue, whiteness, blackness) = self.get();
+
+		let hue       = op(hue);
+		let whiteness = op(whiteness);
+		let blackness = op(blackness);
+
+		Hwb::new(hue, whiteness, blackness)
+	}
+
+	/// Deconstructs the HWB colour.
 	#[inline(always)]
 	#[must_use]
 	pub const fn get(self) -> (T, T, T) {

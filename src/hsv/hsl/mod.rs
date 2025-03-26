@@ -36,7 +36,24 @@ impl<T: Component> Hsl<T> {
 		Self(data)
 	}
 
-	/// Deconstructs an HSL colour.
+	/// Maps the HSL colour's channels.
+	#[inline]
+	#[must_use]
+	pub fn map<U, F>(self, mut op: F) -> Hsl<U>
+	where
+		U: Component,
+		F: FnMut(T) -> U,
+	{
+		let (hue, saturation, luminosity) = self.get();
+
+		let hue        = op(hue);
+		let saturation = op(saturation);
+		let luminosity = op(luminosity);
+
+		Hsl::new(hue, saturation, luminosity)
+	}
+
+	/// Deconstructs the HSL colour.
 	#[inline(always)]
 	#[must_use]
 	pub const fn get(self) -> (T, T, T) {

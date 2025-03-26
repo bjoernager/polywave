@@ -31,17 +31,34 @@ impl<T: Component> CieLab<T> {
 	/// Constructs a new CIELAB colour.
 	#[inline(always)]
 	#[must_use]
-	pub const fn new(x: T, y: T, z: T) -> Self {
-		let data = [x, y, z];
+	pub const fn new(luminance: T, a_star: T, b_star: T) -> Self {
+		let data = [luminance, a_star, b_star];
 		Self(data)
 	}
 
-	/// Deconstructs a CIELAB colour.
+	/// Maps the CIELAB colour's channels.
+	#[inline]
+	#[must_use]
+	pub fn map<U, F>(self, mut op: F) -> CieLab<U>
+	where
+		U: Component,
+		F: FnMut(T) -> U,
+	{
+		let (luminance, a_star, b_star) = self.get();
+
+		let luminance = op(luminance);
+		let a_star    = op(a_star);
+		let b_star    = op(b_star);
+
+		CieLab::new(luminance, a_star, b_star)
+	}
+
+	/// Deconstructs the CIELAB colour.
 	#[inline(always)]
 	#[must_use]
 	pub const fn get(self) -> (T, T, T) {
-		let [x, y, z] = self.0;
-		(x, y, z)
+		let [luminance, a_star, b_star] = self.0;
+		(luminance, a_star, b_star)
 	}
 }
 

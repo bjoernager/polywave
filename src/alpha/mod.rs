@@ -6,9 +6,9 @@
 // can obtain one at:
 // <https://mozilla.org/MPL/2.0/>.
 
-use core::mem::{offset_of, ManuallyDrop};
-
 use crate::{BalancedColour, Colour, DefinedGamut};
+
+use core::mem::{ManuallyDrop, offset_of};
 
 #[cfg(feature = "bytemuck")]
 use bytemuck::{Pod, Zeroable};

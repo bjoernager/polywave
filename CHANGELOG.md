@@ -3,6 +3,13 @@
 This is the changelog of [Polywave](https://crates.io/crates/polywave/).
 See `README.md` for more information.
 
+## 0.7.0
+
+* Add `map` method to our colours (except `Html`)
+* Add `untransfer` method to `SRgb`
+* Add `map_colour` method to `Html`
+* Update docs
+
 ## 0.6.0
 
 * Remove `discard_alpha` methods

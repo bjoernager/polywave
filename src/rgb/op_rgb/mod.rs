@@ -38,6 +38,23 @@ impl<T: Component> OpRgb<T> {
 		Self(colour)
 	}
 
+	/// Maps the opRGB colour's channels.
+	#[inline]
+	#[must_use]
+	pub fn map<U, F>(self, mut op: F) -> OpRgb<U>
+	where
+		U: Component,
+		F: FnMut(T) -> U,
+	{
+		let (red, green, blue) = self.get();
+
+		let red   = op(red);
+		let green = op(green);
+		let blue  = op(blue);
+
+		OpRgb::new(red, green, blue)
+	}
+
 	/// Reinterprets the opRGB colour as a raw RGB colour.
 	#[inline(always)]
 	#[must_use]
@@ -45,7 +62,7 @@ impl<T: Component> OpRgb<T> {
 		self.0
 	}
 
-	/// Deconstructs an opRGB colour.
+	/// Deconstructs the opRGB colour.
 	#[inline(always)]
 	#[must_use]
 	pub const fn get(self) -> (T, T, T) {

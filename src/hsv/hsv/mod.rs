@@ -37,7 +37,24 @@ impl<T: Component> Hsv<T> {
 		Self(data)
 	}
 
-	/// Deconstructs an HSV colour.
+	/// Maps the HSV colour's channels.
+	#[inline]
+	#[must_use]
+	pub fn map<U, F>(self, mut op: F) -> Hsv<U>
+	where
+		U: Component,
+		F: FnMut(T) -> U,
+	{
+		let (hue, saturation, value) = self.get();
+
+		let hue        = op(hue);
+		let saturation = op(saturation);
+		let value      = op(value);
+
+		Hsv::new(hue, saturation, value)
+	}
+
+	/// Deconstructs the HSV colour.
 	#[inline(always)]
 	#[must_use]
 	pub const fn get(self) -> (T, T, T) {
@@ -51,6 +68,7 @@ macro_rules! impl_conversions {
 		$(
 			impl ::polywave::hsv::Hsv<$tys> {
 				/// Converts an HWB colour to HSV.
+				#[must_use]
 				pub const fn from_hwb(colour: ::polywave::hsv::Hwb<$tys>) -> Self {
 					let (hue, whiteness, blackness) = colour.get();
 
@@ -61,6 +79,7 @@ macro_rules! impl_conversions {
 				}
 
 				/// Converts the HSV colour to HWB.
+				#[must_use]
 				pub fn to_hwb(self) -> ::polywave::hsv::Hwb<$tys> {
 					let (hue, saturation, value) = self.get();
 
@@ -75,10 +94,10 @@ macro_rules! impl_conversions {
 	};
 }
 
-impl_conversions!(f32, f64);
-
 #[cfg(feature = "f16")]
 impl_conversions!(f16);
+
+impl_conversions!(f32, f64);
 
 #[cfg(feature = "f128")]
 impl_conversions!(f128);

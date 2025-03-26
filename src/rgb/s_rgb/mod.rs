@@ -38,6 +38,23 @@ impl<T: Component> SRgb<T> {
 		Self(colour)
 	}
 
+	/// Maps the sRGB colour's channels.
+	#[inline]
+	#[must_use]
+	pub fn map<U, F>(self, mut op: F) -> SRgb<U>
+	where
+		U: Component,
+		F: FnMut(T) -> U,
+	{
+		let (red, green, blue) = self.get();
+
+		let red   = op(red);
+		let green = op(green);
+		let blue  = op(blue);
+
+		SRgb::new(red, green, blue)
+	}
+
 	/// Reinterprets the sRGB colour as a raw RGB colour.
 	#[inline(always)]
 	#[must_use]
@@ -45,13 +62,47 @@ impl<T: Component> SRgb<T> {
 		self.0
 	}
 
-	/// Deconstructs an sRGB colour.
+	/// Deconstructs the sRGB colour.
 	#[inline(always)]
 	#[must_use]
 	pub const fn get(self) -> (T, T, T) {
 		self.as_rgb().get()
 	}
 }
+
+macro_rules! impl_conversions {
+	($($tys:ty),+$(,)?) => {
+		$(
+			impl ::polywave::rgb::SRgb<$tys> {
+				/// "Untransfers" the gamma-encoded sRGB.
+				///
+				/// sRGB channels are encoded using the *transfer* function.
+				/// This method is the inverse of this gamma function.
+				///
+				/// Note that the returned value is no longer sRGB as sRGB is strictly gamma-encoded.
+				#[cfg(feature = "std")]
+				#[must_use]
+				pub fn untransfer(self) -> Rgb<$tys> {
+					self.as_rgb().map(|colour| {
+						if colour > 0.040_450 {
+							((colour + 0.055) / 1.055).powf(2.4)
+						} else {
+							colour / 12.920
+						}
+					})
+				}
+			}
+		)*
+	};
+}
+
+#[cfg(feature = "f16")]
+impl_conversions!(f16);
+
+impl_conversions!(f32, f64);
+
+#[cfg(feature = "f128")]
+impl_conversions!(f128);
 
 unsafe impl<T: Component> BalancedColour for SRgb<T> {
 	type Component = T;

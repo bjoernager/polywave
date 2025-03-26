@@ -31,17 +31,34 @@ impl<T: Component> OkLch<T> {
 	/// Constructs a new Oklch colour.
 	#[inline(always)]
 	#[must_use]
-	pub const fn new(x: T, y: T, z: T) -> Self {
-		let data = [x, y, z];
+	pub const fn new(luminance: T, chroma: T, hue: T) -> Self {
+		let data = [luminance, chroma, hue];
 		Self(data)
 	}
 
-	/// Deconstructs an Oklch colour.
+	/// Maps the Oklch colour's channels.
+	#[inline]
+	#[must_use]
+	pub fn map<U, F>(self, mut op: F) -> OkLch<U>
+	where
+		U: Component,
+		F: FnMut(T) -> U,
+	{
+		let (luminance, chroma, hue) = self.get();
+
+		let luminance = op(luminance);
+		let chroma    = op(chroma);
+		let hue       = op(hue);
+
+		OkLch::new(luminance, chroma, hue)
+	}
+
+	/// Deconstructs the Oklch colour.
 	#[inline(always)]
 	#[must_use]
 	pub const fn get(self) -> (T, T, T) {
-		let [x, y, z] = self.0;
-		(x, y, z)
+		let [luminance, chroma, hue] = self.0;
+		(luminance, chroma, hue)
 	}
 }
 

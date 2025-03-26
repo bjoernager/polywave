@@ -38,7 +38,24 @@ impl<T: Component> Rgb<T> {
 		Self(data)
 	}
 
-	/// Deconstructs a raw RGB colour.
+	/// Maps the RGB colour's channels.
+	#[inline]
+	#[must_use]
+	pub fn map<U, F>(self, mut op: F) -> Rgb<U>
+	where
+		U: Component,
+		F: FnMut(T) -> U,
+	{
+		let (red, green, blue) = self.get();
+
+		let red   = op(red);
+		let green = op(green);
+		let blue  = op(blue);
+
+		Rgb::new(red, green, blue)
+	}
+
+	/// Deconstructs the raw RGB colour.
 	#[inline(always)]
 	#[must_use]
 	pub const fn get(self) -> (T, T, T) {

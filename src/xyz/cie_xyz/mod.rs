@@ -36,7 +36,24 @@ impl<T: Component> CieXyz<T> {
 		Self(data)
 	}
 
-	/// Deconstructs a CIEXYZ colour.
+	/// Maps the CIEXYZ colour's channels.
+	#[inline]
+	#[must_use]
+	pub fn map<U, F>(self, mut op: F) -> CieXyz<U>
+	where
+		U: Component,
+		F: FnMut(T) -> U,
+	{
+		let (x, y, z) = self.get();
+
+		let x = op(x);
+		let y = op(y);
+		let z = op(z);
+
+		CieXyz::new(x, y, z)
+	}
+
+	/// Deconstructs the CIEXYZ colour.
 	#[inline(always)]
 	#[must_use]
 	pub const fn get(self) -> (T, T, T) {
