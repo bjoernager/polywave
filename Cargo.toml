@@ -8,15 +8,14 @@
 
 [package]
 name          = "polywave"
-version       = "0.8.0"
+version       = "0.8.1"
 authors       = ["Gabriel Bjørnager Jensen"]
 edition       = "2021"
 rust-version  = "1.82"
 description   = "Vector-based colour manipulators."
 documentation = "https://docs.rs/polywave/"
 readme        = "README.md"
-homepage      = "https://crates.io/crates/polywave/"
-repository    = "https://gitlab.com/bjoernager/polywave/"
+repository    = "https://mandelbrot.dk/bjoernager/polywave/"
 license       = "MPL-2.0"
 
 [package.metadata.docs.rs]

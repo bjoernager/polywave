@@ -3,6 +3,11 @@
 This is the changelog of [Polywave](https://crates.io/crates/polywave/).
 See `README.md` for more information.
 
+## 0.8.1
+
+* Update repository link
+* Remove homepage link
+
 ## 0.8.0
 
 * Add `transfer` constructor to `SRgb`
